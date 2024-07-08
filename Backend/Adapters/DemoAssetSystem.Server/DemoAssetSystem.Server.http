@@ -1,0 +1,6 @@
+@DemoAssetSystem.Server_HostAddress = http://localhost:5049
+
+GET {{DemoAssetSystem.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
