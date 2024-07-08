@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Backend\Adapters\DemoAssetSystem.Server\Api.csproj", "{6AFD4D45-2697-423D-A8FE-30DCA097FA90}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "WebApp", "Frontend\demoassetsystem.client\WebApp.esproj", "{1B9469DB-6DAE-4740-98ED-87E407311092}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "WebApp", "Frontend\WebApp\WebApp.esproj", "{1B9469DB-6DAE-4740-98ED-87E407311092}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreBussiness", "CoreBussiness", "{E32BD089-50B7-477E-B6EA-A18B251ED3CF}"
 EndProject
