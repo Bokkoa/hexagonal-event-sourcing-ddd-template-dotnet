@@ -1,0 +1,8 @@
+@import 'themes/light.css';
+@import 'themes/dark.css';
+@import 'breakpoints.css';
+
+.app {
+    height: 100%;
+    background: var(--white);
+}
