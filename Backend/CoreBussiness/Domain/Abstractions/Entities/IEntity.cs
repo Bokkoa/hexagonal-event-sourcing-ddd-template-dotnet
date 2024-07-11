@@ -1,4 +1,6 @@
 ﻿namespace Domain.Abstractions.Entities;
-internal class IEntity
+public interface IEntity
 {
+    Guid Id { get; }
+    bool IsDeleted { get; }
 }

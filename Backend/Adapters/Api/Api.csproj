@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CoreBussiness\Application\Application.csproj" />
     <ProjectReference Include="..\demoassetsystem.client\demoassetsystem.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
