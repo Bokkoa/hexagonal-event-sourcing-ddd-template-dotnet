@@ -9,8 +9,9 @@ public class Todo: AggregateRoot
     private bool _active;
     private string _author;
     private readonly Dictionary<Guid, Tuple<string, string>> _foos = new();
-    public Foo Foo { get; private set; } 
-    public Bar Bar { get; private set; }
+    public Foo Foo { get; private set; } // entity
+    public Bar Bar { get; private set; } // record value object
+
 
     public bool Active
     {

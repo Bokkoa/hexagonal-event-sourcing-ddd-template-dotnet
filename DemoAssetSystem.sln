@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MongoDb", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Kafka", "Backend\Adapters\Infrastructure.Kafka\Infrastructure.Kafka.csproj", "{E6AAD21D-77A9-4955-97E2-73436D75B4C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "Backend\Adapters\Infrastructure.Common\Infrastructure.Common.csproj", "{E8A512CC-91ED-4D1C-BD8F-DD7B882E6A3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{E6AAD21D-77A9-4955-97E2-73436D75B4C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6AAD21D-77A9-4955-97E2-73436D75B4C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6AAD21D-77A9-4955-97E2-73436D75B4C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A512CC-91ED-4D1C-BD8F-DD7B882E6A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A512CC-91ED-4D1C-BD8F-DD7B882E6A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A512CC-91ED-4D1C-BD8F-DD7B882E6A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A512CC-91ED-4D1C-BD8F-DD7B882E6A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{5065EF71-C71D-47C5-A2E0-8B4F9563FE04} = {13F47422-B8ED-409E-B33B-18983688A217}
 		{BFFBB97F-2746-4589-A424-7AE8428AF169} = {13F47422-B8ED-409E-B33B-18983688A217}
 		{E6AAD21D-77A9-4955-97E2-73436D75B4C8} = {13F47422-B8ED-409E-B33B-18983688A217}
+		{E8A512CC-91ED-4D1C-BD8F-DD7B882E6A3A} = {13F47422-B8ED-409E-B33B-18983688A217}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E73DA7E1-5FC5-4D7E-B488-2FCC99375E29}

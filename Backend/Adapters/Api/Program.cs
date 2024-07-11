@@ -1,8 +1,17 @@
+using Confluent.Kafka;
+using Infrastructure.MongoDb.Config;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+// ADAPTERS
+builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
+builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
+
+
+// Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

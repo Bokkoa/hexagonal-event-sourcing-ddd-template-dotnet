@@ -1,5 +1,5 @@
 ﻿using Api.Dtos;
-using Application.Abstractions;
+using Application.Abstractions.Ports.Contracts;
 using Application.Commands;
 using Microsoft.AspNetCore.Mvc;
 

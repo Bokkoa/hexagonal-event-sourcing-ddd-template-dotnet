@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Ports.Contracts;
 
 namespace Application.Dispatcher;
 public class CommandDispatcher : ICommandDispatcher

@@ -1,7 +1,6 @@
-﻿
-using Domain.Events;
+﻿using Domain.Events;
 
-namespace Application.Abstractions;
+namespace Application.Abstractions.Ports.Repositories;
 public interface IEventStoreRepository
 {
     Task SaveAsync(EventModel @event);

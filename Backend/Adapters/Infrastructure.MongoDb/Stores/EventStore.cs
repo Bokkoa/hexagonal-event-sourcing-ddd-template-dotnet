@@ -1,6 +1,7 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Ports.Contracts;
 using Application.Exceptions;
 using Domain.Abstractions.Events;
+using Domain.Abstractions.Repositories;
 using Domain.Events;
 
 

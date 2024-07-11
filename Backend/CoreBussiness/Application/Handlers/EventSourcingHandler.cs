@@ -1,4 +1,5 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Ports.Contracts;
+using Application.Abstractions.Ports.Handlers;
 using Domain.Abstractions.Aggregates;
 using System;
 using System.Collections.Generic;

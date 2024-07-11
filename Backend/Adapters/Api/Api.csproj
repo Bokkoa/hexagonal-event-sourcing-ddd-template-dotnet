@@ -19,9 +19,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CoreBussiness\Application\Application.csproj" />
+    <ProjectReference Include="..\..\CoreBussiness\Domain\Domain.csproj" />
     <ProjectReference Include="..\demoassetsystem.client\demoassetsystem.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj" />
+    <ProjectReference Include="..\Infrastructure.Kafka\Infrastructure.Kafka.csproj" />
+    <ProjectReference Include="..\Infrastructure.MongoDb\Infrastructure.MongoDb.csproj" />
+    <ProjectReference Include="..\Infrastructure.Postgresql\Infrastructure.Postgresql.csproj" />
   </ItemGroup>
 
 </Project>

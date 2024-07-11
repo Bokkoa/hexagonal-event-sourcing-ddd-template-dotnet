@@ -1,13 +1,35 @@
-﻿
-using Application.Abstractions;
+﻿using Application.Abstractions.Ports.Contracts;
 using Confluent.Kafka;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace Infrastructure.Kafka;
 public class EventProducer : IEventProducer
 {
     private readonly ProducerConfig _config;
-    public Task ProduceAsync<T>(string topic, T @event) where T : global::Domain.Abstractions.Events.BaseEvent
+
+    public EventProducer(IOptions<ProducerConfig> cfg)
     {
-        throw new NotImplementedException();
+        _config = cfg.Value;
+    }
+    public async Task ProduceAsync<T>(string topic, T @event) where T : global::Domain.Abstractions.Events.BaseEvent
+    {
+        using var producer = new ProducerBuilder<string, string>(_config)
+               .SetKeySerializer(Serializers.Utf8)
+               .SetValueSerializer(Serializers.Utf8)
+               .Build();
+
+        var eventMessage = new Message<string, string>
+        {
+            Key = Guid.NewGuid().ToString(),
+            Value = JsonSerializer.Serialize(@event, @event.GetType())
+        };
+
+        var deliveryResult = await producer.ProduceAsync(topic, @eventMessage);
+
+        if (deliveryResult.Status == PersistenceStatus.NotPersisted)
+        {
+            throw new Exception($"Could not produce {@event.GetType().Name} message to topic - {topic} due to the following reason: {deliveryResult.Message}");
+        }
     }
 }
