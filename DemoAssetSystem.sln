@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Backend\Adapters\DemoAssetSystem.Server\Api.csproj", "{6AFD4D45-2697-423D-A8FE-30DCA097FA90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Backend\Adapters\Api\Api.csproj", "{6AFD4D45-2697-423D-A8FE-30DCA097FA90}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "WebApp", "Frontend\WebApp\WebApp.esproj", "{1B9469DB-6DAE-4740-98ED-87E407311092}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Backend\CoreBussi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Postgresql", "Backend\Adapters\Infrastructure.Postgresql\Infrastructure.Postgresql.csproj", "{5065EF71-C71D-47C5-A2E0-8B4F9563FE04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.MongoDb", "Backend\Adapters\Infrastructure.MongoDb\Infrastructure.MongoDb.csproj", "{BFFBB97F-2746-4589-A424-7AE8428AF169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MongoDb", "Backend\Adapters\Infrastructure.MongoDb\Infrastructure.MongoDb.csproj", "{BFFBB97F-2746-4589-A424-7AE8428AF169}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
