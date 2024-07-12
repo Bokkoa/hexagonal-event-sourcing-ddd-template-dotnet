@@ -1,12 +1,41 @@
+using Application.Abstractions.Ports.Contracts;
+using Application.Abstractions.Ports.Handlers;
+using Application.Commands;
+using Application.Dispatcher;
+using Application.Handlers;
 using Confluent.Kafka;
-using Infrastructure.MongoDb.Config;
+using Domain.Modules.Todos.Aggregates;
+using Infrastructure.Kafka;
+using Infrastructure.MongoDb;
+using Infrastructure.MongoDb.Stores;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // ADAPTERS
-builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
-builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
+builder.Services.InjectMongoDbDependency(builder.Configuration);
+builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection("KafkaConfig"));
+
+// PRODUCER
+builder.Services.AddScoped<IEventProducer, EventProducer>();
+
+// STORE
+builder.Services.AddScoped<IEventStore, EventStore>();
+
+// DDD
+builder.Services.AddScoped<IEventSourcingHandler<Todo>, EventSourcingHandler<Todo>>();
+builder.Services.AddScoped<ICommandHandler, CommandHandler>();
+
+
+// COMMAND HANDLERS
+var commandHandler = builder.Services.BuildServiceProvider().GetRequiredService<ICommandHandler>();
+var dispatcher = new CommandDispatcher();
+
+dispatcher.RegisterHandler<NewTodoCommand>(commandHandler.HandleAsync);
+
+// DISPATCHERS
+builder.Services.AddSingleton<ICommandDispatcher>(_ => dispatcher);
+
 
 
 // Add services to the container.

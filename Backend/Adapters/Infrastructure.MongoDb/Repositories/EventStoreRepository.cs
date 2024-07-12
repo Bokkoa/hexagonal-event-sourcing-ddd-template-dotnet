@@ -1,34 +1,36 @@
-﻿using Domain.Events;
-using Domain.Abstractions.Repositories;
-using Infrastructure.MongoDb.Config;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Application.Abstractions.Ports.Repositories;
+using Infrastructure.MongoDb.Events;
+using Domain.Events;
+using Infrastructure.MongoDb.Mappers;
+
+
 
 namespace Infrastructure.MongoDb.Repositories;
 public class EventStoreRepository : IEventStoreRepository
 {
-    private readonly IMongoCollection<EventModel> _eventStoreCollection;
-    public EventStoreRepository(IOptions<MongoDbConfig> config)
+    private readonly IMongoCollection<MongoDbEventModel> _eventStoreCollection;
+    public EventStoreRepository(IMongoCollection<MongoDbEventModel> eventStoreCollection)
     {
-        var mongoClient = new MongoClient(config.Value.ConnectionString);
-        var mongoDatabase = mongoClient.GetDatabase(config.Value.Database);
-
-        _eventStoreCollection = mongoDatabase.GetCollection<EventModel>(config.Value.Collection);
+        _eventStoreCollection = eventStoreCollection;
     }
 
     public async Task<List<EventModel>> FindAllAsync()
     {
-        return await _eventStoreCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
+        var events = await _eventStoreCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
+        return events.Select(EventModelMapper.ToEventModel).ToList();
+
     }
 
     public async Task<List<EventModel>> FindByAggregateId(Guid aggregateId)
     {
-        return await _eventStoreCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
+        var events = await _eventStoreCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
+        return events.Select(EventModelMapper.ToEventModel).ToList();
     }
 
     public async Task SaveAsync(EventModel @event)
     {
-        await _eventStoreCollection.InsertOneAsync(@event).ConfigureAwait(false);
+        var mongoDbEvent = EventModelMapper.ToMongoDbEventModel(@event);
+        await _eventStoreCollection.InsertOneAsync(mongoDbEvent).ConfigureAwait(false);
     }
 }

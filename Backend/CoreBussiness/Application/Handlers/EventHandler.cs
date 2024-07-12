@@ -32,7 +32,7 @@ public class EventHandler : IEventHandler
         var foo = await _fooRepository.GetByIdAsync(@event.Id);
         if (foo == null) return;
 
-        foo.Author = @event.Author;
+        foo.Email = @event.Email;
         await _fooRepository.UpdateAsync(foo);
     }
 }

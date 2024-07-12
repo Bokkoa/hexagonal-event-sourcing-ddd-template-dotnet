@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <SpaRoot>..\demoassetsystem.client</SpaRoot>
+    <SpaRoot>..\..\..\Frontend\WebApp</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
   </PropertyGroup>
@@ -20,7 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CoreBussiness\Application\Application.csproj" />
     <ProjectReference Include="..\..\CoreBussiness\Domain\Domain.csproj" />
-    <ProjectReference Include="..\demoassetsystem.client\demoassetsystem.client.esproj">
+    <ProjectReference Include="..\..\..\Frontend\WebApp\WebApp.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj" />

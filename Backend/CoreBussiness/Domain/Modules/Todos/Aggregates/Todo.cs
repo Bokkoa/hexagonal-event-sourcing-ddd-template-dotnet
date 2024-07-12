@@ -56,7 +56,7 @@ public class Todo: AggregateRoot
         RaiseEvent(new FooUpdatedEvent
         {
             Id = _id,
-            Foo = foo
+            Email = foo
         });
     }
 

@@ -1,9 +1,10 @@
 ﻿using Domain.Abstractions.Events;
+using Domain.Events;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Infrastructure.MongoDb.Events;
-public class EventModel
+public class MongoDbEventModel
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]

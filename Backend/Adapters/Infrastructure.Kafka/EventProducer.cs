@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Ports.Contracts;
 using Confluent.Kafka;
+using Domain.Abstractions.Events;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
@@ -12,7 +13,7 @@ public class EventProducer : IEventProducer
     {
         _config = cfg.Value;
     }
-    public async Task ProduceAsync<T>(string topic, T @event) where T : global::Domain.Abstractions.Events.BaseEvent
+    public async Task ProduceAsync<T>(string topic, T @event) where T : BaseEvent
     {
         using var producer = new ProducerBuilder<string, string>(_config)
                .SetKeySerializer(Serializers.Utf8)

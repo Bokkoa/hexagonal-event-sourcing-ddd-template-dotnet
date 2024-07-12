@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Ports.Contracts;
+using Application.Abstractions.Ports.Repositories;
 using Application.Exceptions;
 using Domain.Abstractions.Events;
-using Domain.Abstractions.Repositories;
 using Domain.Events;
 
 
@@ -48,7 +48,7 @@ public class EventStore : IEventStore
         }
 
         var version = expectedVersion;
-
+        var aggregateType = typeof(TAggregate).Name;
         foreach (var @event in events)
         {
             version++;
@@ -58,7 +58,7 @@ public class EventStore : IEventStore
             {
                 TimeStamp = DateTime.Now,
                 AggregateIdentifier = aggregateId,
-                AggregateType = nameof(TAggregate),
+                AggregateType = aggregateType,
                 Version = version,
                 EventType = eventType,
                 EventData = @event
