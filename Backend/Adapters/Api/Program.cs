@@ -1,41 +1,56 @@
 using Application.Abstractions.Ports.Contracts;
 using Application.Abstractions.Ports.Handlers;
+using Application.Abstractions.Ports.Repositories;
 using Application.Commands;
 using Application.Dispatcher;
+using Application.Dispatchers;
 using Application.Handlers;
-using Confluent.Kafka;
+using Application.Queries;
+using Domain.Models;
 using Domain.Modules.Todos.Aggregates;
+using Infrastructure.Common.Repositories;
 using Infrastructure.Kafka;
 using Infrastructure.MongoDb;
-using Infrastructure.MongoDb.Stores;
+using Infrastructure.Postgresql;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+// +==============+
+// ||  ADAPTERS  ||
+// +==============+
 
-// ADAPTERS
 builder.Services.InjectMongoDbDependency(builder.Configuration);
-builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection("KafkaConfig"));
+builder.Services.InjectPostgresqlDependency(builder.Configuration);
 
-// PRODUCER
-builder.Services.AddScoped<IEventProducer, EventProducer>();
 
-// STORE
-builder.Services.AddScoped<IEventStore, EventStore>();
+// KAFKA
+builder.Services.InjectKafkaDependency(builder.Configuration);
 
 // DDD
-builder.Services.AddScoped<IEventSourcingHandler<Todo>, EventSourcingHandler<Todo>>();
+builder.Services.AddScoped<IEventHandler, Application.Handlers.EventHandler>();
+builder.Services.AddScoped<IEventSourcingHandler<TodoAggregate>, EventSourcingHandler<TodoAggregate>>();
 builder.Services.AddScoped<ICommandHandler, CommandHandler>();
-
-
+builder.Services.AddScoped<IQueryHandler, QueryHandler>();
 // COMMAND HANDLERS
 var commandHandler = builder.Services.BuildServiceProvider().GetRequiredService<ICommandHandler>();
-var dispatcher = new CommandDispatcher();
+var commandDispatcher = new CommandDispatcher();
 
-dispatcher.RegisterHandler<NewTodoCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegisterHandler<NewTodoCommand>(commandHandler.HandleAsync);
+
+
+// QUERY HANDLERS
+var queryHandler = builder.Services.BuildServiceProvider().GetRequiredService<IQueryHandler>();
+var querydispatcher = new QueryDispatcher<TodoModel>();
+querydispatcher.RegisterHandler<FindAllTodosQuery>(queryHandler.HandleAsync);
+
+// REPOSITORIES
+builder.Services.AddScoped<IFooRepository, FooRepository>();
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 
 // DISPATCHERS
-builder.Services.AddSingleton<ICommandDispatcher>(_ => dispatcher);
-
+builder.Services.AddSingleton<ICommandDispatcher>(_ => commandDispatcher);
+builder.Services.AddSingleton<IQueryDispatcher<TodoModel>>(_ => querydispatcher);
 
 
 // Add services to the container.

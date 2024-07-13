@@ -3,16 +3,17 @@ using Application.Abstractions.Ports.Handlers;
 using Application.Converters;
 using Confluent.Kafka;
 using Domain.Abstractions.Events;
+using Infrastructure.Kafka.Config;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace Infrastructure.Kafka;
+namespace Infrastructure.Kafka.PubSub;
 public class EventConsumer : IEventConsumer
 {
-    private readonly ConsumerConfig _config;
+    private readonly KafkaConfig _config;
     private readonly IEventHandler _eventHandler;
 
-    public EventConsumer(IOptions<ConsumerConfig> config, IEventHandler eventHandler)
+    public EventConsumer(IOptions<KafkaConfig> config, IEventHandler eventHandler)
     {
         _config = config.Value;
         _eventHandler = eventHandler;
@@ -20,7 +21,16 @@ public class EventConsumer : IEventConsumer
 
     public void Consume(string topic)
     {
-        using var consumer = new ConsumerBuilder<string, string>(_config)
+
+        var consumerConfig = new Confluent.Kafka.ConsumerConfig
+        {
+            GroupId = _config.ConsumerConfig.GroupId,
+            BootstrapServers = _config.ConsumerConfig.BootstrapServers,
+            EnableAutoCommit = _config.ConsumerConfig.EnableAutoCommit,
+            AllowAutoCreateTopics = _config.ConsumerConfig.AllowAutoCreateTopics
+        };
+
+        using var consumer = new ConsumerBuilder<string, string>(consumerConfig)
                                   .SetKeyDeserializer(Deserializers.Utf8)
                                   .SetValueDeserializer(Deserializers.Utf8)
                                   .Build();

@@ -1,6 +1,6 @@
 import { useTheme } from "../../entities/theme/lib/useTheme"
 import clsx from 'clsx'
-import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { Layout } from "../layout";
 import { LoginPage } from "../../pages/loginPage";
 

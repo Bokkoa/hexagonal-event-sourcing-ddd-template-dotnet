@@ -1,19 +1,23 @@
 ﻿using Application.Abstractions.Ports.Contracts;
+using Infrastructure.Kafka.Config;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 
-namespace Infrastructure.Kafka;
+namespace Infrastructure.Kafka.PubSub;
 public class ConsumerHostedService : IHostedService
 {
     private readonly ILogger<ConsumerHostedService> _logger;
     private readonly IServiceProvider _serviceProvider;
+    private readonly KafkaConfig _config;
 
-    public ConsumerHostedService(IServiceProvider serviceProvider, ILogger<ConsumerHostedService> logger)
+    public ConsumerHostedService(IServiceProvider serviceProvider, ILogger<ConsumerHostedService> logger, IOptions<KafkaConfig> config)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
+        _config = config.Value;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -24,7 +28,7 @@ public class ConsumerHostedService : IHostedService
         {
 
             var eventConsumer = scope.ServiceProvider.GetRequiredService<IEventConsumer>();
-            var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
+            var topic = _config.Topic;
             Task.Run(() => eventConsumer.Consume(topic), cancellationToken);
         }
 

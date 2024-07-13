@@ -4,7 +4,7 @@ using Domain.Modules.Todos.Events;
 using Domain.Modules.Todos.ValueObjects;
 
 namespace Domain.Modules.Todos.Aggregates;
-public class Todo: AggregateRoot
+public class TodoAggregate: AggregateRoot
 {
     private bool _active;
     private string _author;
@@ -18,12 +18,12 @@ public class Todo: AggregateRoot
         get => _active; set => _active = value;
     }
 
-    public Todo()
+    public TodoAggregate()
     {
 
     }
 
-    public Todo(Guid id, string author, string foo)
+    public TodoAggregate(Guid id, string author, string foo)
     {
         RaiseEvent(new TodoCreatedEvent
         {

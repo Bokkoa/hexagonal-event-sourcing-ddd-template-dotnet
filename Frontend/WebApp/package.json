@@ -11,7 +11,7 @@
   },
   "build": {
     "extends": null,
-    "appId": "com.altatecsoftware.amcore",
+    "appId": "com.bokkoa.template",
     "files": [
       "dist/**/*",
       "electron/**/*"

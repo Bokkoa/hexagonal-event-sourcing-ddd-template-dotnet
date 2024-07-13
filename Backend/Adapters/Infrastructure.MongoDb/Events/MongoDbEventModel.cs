@@ -1,5 +1,4 @@
 ﻿using Domain.Abstractions.Events;
-using Domain.Events;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -17,5 +16,6 @@ public class MongoDbEventModel
 
     public int Version { get; set; }
     public string EventType { get; set; }
+
     public BaseEvent EventData { get; set; }
 }

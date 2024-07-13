@@ -1,21 +1,26 @@
 ﻿using Application.Abstractions.Ports.Contracts;
 using Confluent.Kafka;
 using Domain.Abstractions.Events;
+using Infrastructure.Kafka.Config;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace Infrastructure.Kafka;
+namespace Infrastructure.Kafka.PubSub;
 public class EventProducer : IEventProducer
 {
-    private readonly ProducerConfig _config;
+    private readonly KafkaConfig _config;
 
-    public EventProducer(IOptions<ProducerConfig> cfg)
+    public EventProducer(IOptions<KafkaConfig> cfg)
     {
         _config = cfg.Value;
     }
     public async Task ProduceAsync<T>(string topic, T @event) where T : BaseEvent
     {
-        using var producer = new ProducerBuilder<string, string>(_config)
+        var producerConfig = new Confluent.Kafka.ProducerConfig
+        {
+            BootstrapServers = _config.ProducerConfig.BootstrapServers
+        };
+        using var producer = new ProducerBuilder<string, string>(producerConfig)
                .SetKeySerializer(Serializers.Utf8)
                .SetValueSerializer(Serializers.Utf8)
                .Build();

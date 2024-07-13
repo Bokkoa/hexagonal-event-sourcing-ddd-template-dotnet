@@ -2,12 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Infrastructure.MongoDb.Config;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using Application.Abstractions.Ports.Repositories;
 using Infrastructure.MongoDb.Events;
 using Infrastructure.MongoDb.Repositories;
-using Microsoft.Extensions.Options;
-using Domain.Events;
+using Application.Abstractions.Ports.Contracts;
+using Infrastructure.MongoDb.Stores;
 
 namespace Infrastructure.MongoDb;
 public static class InfrastructureMongoDbAdapterDependency
@@ -40,16 +39,13 @@ public static class InfrastructureMongoDbAdapterDependency
             return database.GetCollection<MongoDbEventModel>(mongoDbConfig.Collection);
         });
 
+        // STORE
+        services.AddScoped<IEventStore, EventStore>();
 
         // Repository implementation
         services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 
-
         return services;
-
-
-
-
 
     }
 

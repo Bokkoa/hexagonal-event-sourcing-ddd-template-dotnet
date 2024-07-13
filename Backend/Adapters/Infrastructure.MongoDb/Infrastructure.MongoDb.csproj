@@ -10,11 +10,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-    <PackageReference Include="MongoDB.Driver" Version="2.27.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CoreBussiness\Application\Application.csproj" />
+    <ProjectReference Include="..\..\CoreBussiness\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

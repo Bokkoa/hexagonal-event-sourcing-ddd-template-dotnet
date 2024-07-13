@@ -1,14 +1,10 @@
 ﻿using Application.Abstractions.Ports.Contracts;
 using Application.Abstractions.Ports.Handlers;
 using Domain.Abstractions.Aggregates;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Handlers;
-public class EventSourcingHandler<T> : IEventSourcingHandler<T> where T: class
+public class EventSourcingHandler<T> : IEventSourcingHandler<T> where T: AggregateRoot
 {
     private readonly IEventStore _eventStore;
     private readonly IEventProducer _eventProducer;
@@ -20,7 +16,11 @@ public class EventSourcingHandler<T> : IEventSourcingHandler<T> where T: class
     }
     public async Task<T> GetByIdAsync(Guid aggregateId)
     {
+        Console.WriteLine("GET BY ID");
         var aggregate = AggregateFactory.CreateAggregate<T>();
+        Console.WriteLine("@@@@@@@@@@");
+        Console.WriteLine(aggregate.GetType());
+        Console.WriteLine("@@@@@@@@@@");
         var events = await _eventStore.GetEventsAsync(aggregateId);
 
         if (events == null || !events.Any())
@@ -36,6 +36,8 @@ public class EventSourcingHandler<T> : IEventSourcingHandler<T> where T: class
 
     public async Task RepublishEventsAsync()
     {
+        Console.WriteLine("REPUBLISH");
+
         var aggregateIds = await _eventStore.GetAggregateIdAsync();
 
         if (aggregateIds == null || !aggregateIds.Any()) return;
@@ -59,7 +61,11 @@ public class EventSourcingHandler<T> : IEventSourcingHandler<T> where T: class
 
     public async Task SaveAsync(AggregateRoot aggregate)
     {
-        await _eventStore.SaveEventAsync<AggregateRoot>(aggregate.Id, aggregate.GetUncommittedChanges(), aggregate.Version);
+        Console.WriteLine("saving");
+         Console.WriteLine("@@@@@@@@@@");
+        Console.WriteLine(aggregate.GetType());
+        Console.WriteLine("@@@@@@@@@@");
+        await _eventStore.SaveEventAsync<T>(aggregate.Id, aggregate.GetUncommittedChanges(), aggregate.Version);
         aggregate.MarkChangesAsCommitted();
     }
 }

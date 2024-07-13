@@ -10,10 +10,13 @@ public class EventStore : IEventStore
 {
     private readonly IEventStoreRepository _eventStoreRepository;
     private readonly IEventProducer _eventProducer;
-    public EventStore(IEventStoreRepository eventStoreRepository, IEventProducer eventProducer)
+    private readonly IEnumerable<IAdapterEventObserver> _adaptersObservers;
+
+    public EventStore(IEventStoreRepository eventStoreRepository, IEventProducer eventProducer, IEnumerable<IAdapterEventObserver> adaptersObservers)
     {
         _eventStoreRepository = eventStoreRepository;
         _eventProducer = eventProducer;
+        _adaptersObservers = adaptersObservers;
     }
 
     public async Task<List<Guid>> GetAggregateIdAsync()
@@ -66,9 +69,11 @@ public class EventStore : IEventStore
 
             await _eventStoreRepository.SaveAsync(eventModel);
 
-            var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
-
-            await _eventProducer.ProduceAsync(topic, @event);
+            foreach(var adapter in _adaptersObservers)
+            {
+                // emiting message of store event between adapter components
+                await adapter.OnEventStored(@event);
+            }
         }
     }
 }

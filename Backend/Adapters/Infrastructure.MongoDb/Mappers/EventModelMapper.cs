@@ -5,8 +5,10 @@ namespace Infrastructure.MongoDb.Mappers;
 
 public static class EventModelMapper
 {
+
     public static MongoDbEventModel ToMongoDbEventModel(EventModel eventModel)
     {
+
         return new MongoDbEventModel
         {
             Id = eventModel.Id,
